@@ -5,7 +5,7 @@ const books = [
     id: 1,
     title: 'The Hobbit',
     author: 'J.R.R. Tolkien',
-    coverImage: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=80'
+    coverImage: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 2,
