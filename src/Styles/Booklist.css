@@ -1,0 +1,14 @@
+.book-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 560px) {
+  .book-list {
+    grid-template-columns: 1fr;
+  }
+}
