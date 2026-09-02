@@ -1,8 +1,8 @@
 import '../Styles/BookCard.css'
 
-const BookCard = ({ id, title, author, coverImage }) => {
+const BookCard = ({ id, title, author, coverImage, isFavorite = false, onToggleFavorite }) => {
   const handleFavoriteClick = () => {
-    console.log('Favorite book id:', id)
+    onToggleFavorite?.({ id, title, author, coverImage })
   }
 
   return (
@@ -12,8 +12,12 @@ const BookCard = ({ id, title, author, coverImage }) => {
         <h3>{title}</h3>
         <p>{author}</p>
       </div>
-      <button type="button" className="favorite-button" onClick={handleFavoriteClick}>
-        Favorite
+      <button
+        type="button"
+        className={`favorite-button ${isFavorite ? 'favorite-button-active' : ''}`}
+        onClick={handleFavoriteClick}
+      >
+        {isFavorite ? 'Favorited' : 'Favorite'}
       </button>
     </li>
   )
