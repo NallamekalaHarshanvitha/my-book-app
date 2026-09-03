@@ -1,15 +1,19 @@
+import { Link } from 'react-router-dom'
 import '../Styles/BookCard.css'
+import { memo } from 'react'
 
-const BookCard = ({ id, title, author, coverImage, isFavorite = false, onToggleFavorite }) => {
+const BookCard = memo(function BookCard ({ id, title, author, coverImage, isFavorite = false, onToggleFavorite }) {
   const handleFavoriteClick = () => {
     onToggleFavorite?.({ id, title, author, coverImage })
   }
 
   return (
     <li className="book-item">
-      <img className="book-cover" src={coverImage} alt={`${title} cover`} />
+      <Link to={`/book/${id}`}>
+        <img className="book-cover" src={coverImage} alt={`${title} cover`} />
+      </Link>
       <div className="book-info">
-        <h3>{title}</h3>
+        <h3><Link to={`/book/${id}`}>{title}</Link></h3>
         <p>{author}</p>
       </div>
       <button
@@ -21,6 +25,6 @@ const BookCard = ({ id, title, author, coverImage, isFavorite = false, onToggleF
       </button>
     </li>
   )
-}
+})
 
 export default BookCard

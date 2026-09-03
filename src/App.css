@@ -149,6 +149,33 @@ body {
   font-weight: 500;
 }
 
+.book-info a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.book-info a:hover {
+  color: #2563eb;
+}
+
+.book-detail {
+  display: grid;
+  grid-template-columns: minmax(180px, 280px) 1fr;
+  gap: 28px;
+  max-width: 760px;
+}
+
+.book-detail-cover {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.book-detail h2 {
+  margin-top: 0;
+}
+
 @media (max-width: 760px) {
   .app-header {
     align-items: flex-start;
@@ -192,6 +219,10 @@ body {
   }
 
   .book-list {
+    grid-template-columns: 1fr;
+  }
+
+  .book-detail {
     grid-template-columns: 1fr;
   }
 }

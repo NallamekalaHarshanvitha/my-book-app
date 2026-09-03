@@ -15,7 +15,7 @@ const BookList = ({ books = [], favorites = [], onToggleFavorite = () => {} }) =
             author={book.author}
             coverImage={book.coverImage}
             isFavorite={isFavorite}
-            onToggleFavorite={() => onToggleFavorite(book)}
+            onToggleFavorite={onToggleFavorite}
           />
         )
       })}

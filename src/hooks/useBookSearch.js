@@ -45,12 +45,16 @@ export function useBookSearch (query) {
   const [error, setError] = useState('')
 
   useEffect(() => {
+    const controller = new AbortController()
+
     const fetchBooks = async (searchQuery) => {
       try {
         setIsLoading(true)
         setError('')
 
-        const response = await fetch('https://jsonplaceholder.typicode.com/users')
+        const response = await fetch('https://jsonplaceholder.typicode.com/users', {
+          signal: controller.signal
+        })
 
         if (!response.ok) {
           throw new Error('Failed to fetch books')
@@ -59,7 +63,7 @@ export function useBookSearch (query) {
         const data = await response.json()
         const normalizedQuery = searchQuery.trim().toLowerCase()
 
-        const booksFromApi = data.slice(0, 8).map((item, index) => ({
+        const booksFromApi = data.slice(0, 6).map((item, index) => ({
           id: item.id || index + 1,
           title: item.name || initialBooks[index]?.title || 'Untitled Book',
           author: item.company?.name || initialBooks[index]?.author || 'Unknown Author',
@@ -80,25 +84,34 @@ export function useBookSearch (query) {
             })
           : uniqueBooks
 
-        setBooks(visibleBooks)
+        if (!controller.signal.aborted) {
+          setBooks(visibleBooks)
+        }
       } catch (err) {
-        setError('Something went wrong while searching books.')
-        console.error(err)
-        setBooks(initialBooks)
+        if (err.name !== 'AbortError' && !controller.signal.aborted) {
+          setError('Something went wrong while searching books.')
+          console.error(err)
+          setBooks(initialBooks)
+        }
       } finally {
-        setIsLoading(false)
+        if (!controller.signal.aborted) {
+          setIsLoading(false)
+        }
       }
     }
 
     const timer = setTimeout(() => {
       if (query.trim()) {
         fetchBooks(query)
-      } else {
+      } else if (!controller.signal.aborted) {
         setBooks(initialBooks)
       }
     }, 400)
 
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
   }, [query])
 
   return { books, isLoading, error }
