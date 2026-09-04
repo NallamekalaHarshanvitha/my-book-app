@@ -13,6 +13,15 @@ describe('favoritesReducer', () => {
     expect(previousState).toEqual([firstBook])
   })
 
+  it('does not add a duplicate favorite', () => {
+    const previousState = [firstBook]
+    const nextState = reducer(previousState, addFavorite({ ...firstBook, title: 'Updated Title' }))
+
+    expect(nextState).toEqual([firstBook])
+    expect(nextState).toBe(previousState)
+    expect(previousState).toEqual([firstBook])
+  })
+
   it('removes a favorite without mutating the previous state', () => {
     const previousState = [firstBook, secondBook]
     const nextState = reducer(previousState, removeFavorite(firstBook))
