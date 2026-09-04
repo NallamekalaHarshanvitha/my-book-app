@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import './App.css'
-import BookList from './components/BookList'
+import SearchBar from './components/SearchBar'
 import { useBookSearch } from './hooks/useBookSearch'
 import BookDetail from './pages/BookDetail'
+import FavoritesPage from './pages/FavoritesPage'
+import HomePage from './pages/HomePage'
 import { useDispatch, useSelector } from 'react-redux'
 import { addFavorite, removeFavorite } from './store/favoritesSlice'
 
@@ -13,58 +15,22 @@ function Header ({ favoritesCount, query, isLoading, searchInputRef, onQueryChan
       <h1>My Book App</h1>
       <nav>
         <ul className="nav-list">
-          <li><Link to="/">Home</Link></li>
+          <li><Link to="/" data-testid="home-link">Home</Link></li>
           <li>
-            <Link to="/favorites" className="favorites-pill" aria-label="Favorites count">
-              Favorites <span className="favorites-badge">{favoritesCount}</span>
+            <Link to="/favorites" className="favorites-pill" aria-label="Favorites count" data-testid="favorites-link">
+              Favorites <span className="favorites-badge" data-testid="favorites-badge">{favoritesCount}</span>
             </Link>
           </li>
         </ul>
-        <form className="search-form" onSubmit={onSubmit}>
-          <input
-            ref={searchInputRef}
-            type="text"
-            value={query}
-            onChange={(event) => onQueryChange(event.target.value)}
-            placeholder="Search books..."
-            aria-label="Search books"
-          />
-          <button type="submit" className="button" disabled={isLoading}>
-            {isLoading ? 'Loading...' : 'Search'}
-          </button>
-        </form>
+        <SearchBar
+          query={query}
+          isLoading={isLoading}
+          searchInputRef={searchInputRef}
+          onQueryChange={onQueryChange}
+          onSubmit={onSubmit}
+        />
       </nav>
     </header>
-  )
-}
-
-function HomePage ({ books, favorites, isLoading, error, onToggleFavorite }) {
-  return (
-    <>
-      {favorites.length > 0 && (
-        <div className="favorites-summary">
-          <strong>Favorites:</strong> {favorites.length}
-        </div>
-      )}
-      {isLoading && <div className="loading-state">Loading books...</div>}
-      {!isLoading && error && <p className="error-message">{error}</p>}
-      {!isLoading && !error && (
-        <section className="book-section">
-          <BookList books={books} favorites={favorites} onToggleFavorite={onToggleFavorite} />
-        </section>
-      )}
-    </>
-  )
-}
-
-function FavoritesPage ({ favorites, onToggleFavorite }) {
-  return (
-    <section className="book-section">
-      <h2>Favorites</h2>
-      {favorites.length > 0
-        ? <BookList books={favorites} favorites={favorites} onToggleFavorite={onToggleFavorite} />
-        : <p>No favorite books yet.</p>}
-    </section>
   )
 }
 

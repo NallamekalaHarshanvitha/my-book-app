@@ -9,16 +9,17 @@ const BookCard = memo(function BookCard ({ id, title, author, coverImage, isFavo
 
   return (
     <li className="book-item">
-      <Link to={`/book/${id}`}>
+      <Link to={`/book/${id}`} data-testid="book-cover-link">
         <img className="book-cover" src={coverImage} alt={`${title} cover`} />
       </Link>
       <div className="book-info">
-        <h3><Link to={`/book/${id}`}>{title}</Link></h3>
+        <h3><Link to={`/book/${id}`} data-testid="book-title-link">{title}</Link></h3>
         <p>{author}</p>
       </div>
       <button
         type="button"
         className={`favorite-button ${isFavorite ? 'favorite-button-active' : ''}`}
+        data-testid="favorite-button"
         onClick={handleFavoriteClick}
       >
         {isFavorite ? 'Favorited' : 'Favorite'}

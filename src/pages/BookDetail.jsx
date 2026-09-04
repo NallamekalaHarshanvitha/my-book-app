@@ -31,10 +31,10 @@ function BookDetail () {
     <article className="book-detail">
       <img className="book-detail-cover" src={book.coverImage} alt={`${book.title} cover`} />
       <div>
-        <p><Link to="/">Back to books</Link></p>
+        <p><Link to="/" data-testid="back-to-books-link">Back to books</Link></p>
         <h2>{book.title}</h2>
         <p>{book.author}</p>
-        <button type="button" className="button" onClick={handleToggleFavorite}>
+        <button type="button" className="button" data-testid="detail-favorite-button" onClick={handleToggleFavorite}>
           {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
         </button>
       </div>
